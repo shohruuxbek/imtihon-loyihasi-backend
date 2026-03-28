@@ -13,10 +13,12 @@ import { AuthModule } from './auth/auth.module.js';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'oquv_markazi.db',
+      type: process.env.NODE_ENV === 'production' ? 'postgres' : 'sqlite',
+      url: process.env.DATABASE_URL,
+      database: process.env.NODE_ENV !== 'production' ? 'oquv_markazi.db' : undefined,
       entities: [join(__dirname, '**', '*.entity{.ts,.js}')],
-      synchronize: true,
+      synchronize: true, // Production'da false qiling va migrations ishlating
+      logging: process.env.NODE_ENV === 'development',
     }),
     StudentsModule,
     TeachersModule,
