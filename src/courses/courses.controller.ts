@@ -13,6 +13,7 @@ import { Repository } from 'typeorm';
 import { Course } from './course.entity.js';
 import { RolesGuard } from '../common/guards/roles.guard.js';
 import { Roles } from '../common/decorators/roles.decorator.js';
+import { CreateCourseDto } from './dto/create-course.dto.js';
 
 @Controller('courses')
 @UseGuards(RolesGuard)
@@ -34,8 +35,10 @@ export class CoursesController {
 
   @Post()
   @Roles('admin', 'teacher')
-  create(@Body() course: Course): Promise<Course> {
-    return this.courseRepository.save(course);
+  async create(@Body() course: CreateCourseDto): Promise<Course> {
+    console.log('Kurs qo\'shilmoqda:', course);
+    const newCourse = this.courseRepository.create(course);
+    return this.courseRepository.save(newCourse);
   }
 
   @Put(':id')

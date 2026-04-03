@@ -14,9 +14,6 @@ export class Teacher {
   @Column({ unique: true })
   phone: string;
 
-  @Column({ unique: true })
-  email: string;
-
   @Column()
   specialization: string;
 
@@ -28,4 +25,13 @@ export class Teacher {
 
   @Column({ nullable: true })
   notes: string;
+
+  @Column({ nullable: true })
+  assignedCourses: string; // Kurs ID lari vergul bilan
+
+  @Column({ nullable: true })
+  username: string;
+
+  @Column({ nullable: true })
+  password: string;
 }

@@ -32,9 +32,16 @@ export class AuthService {
   }
 
   async login(user: any) {
+    console.log('Login successful for user:', user);
     return {
       access_token: `token_${user.username}_${user.role}`,
-      user: user,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        fullName: user.fullName,
+        email: user.email,
+      },
     };
   }
 
@@ -47,36 +54,22 @@ export class AuthService {
     return this.userRepository.find();
   }
 
-  // Demo foydalanuvchilarni yaratish
-  async createDemoUsers() {
-    const users = [
-      {
-        username: 'admin',
-        password: 'admin123',
-        role: 'admin',
-        fullName: 'Admin User',
-      },
-      {
-        username: 'teacher1',
-        password: 'teacher123',
-        role: 'teacher',
-        fullName: 'Teacher One',
-      },
-      {
-        username: 'student1',
-        password: 'student123',
-        role: 'student',
-        fullName: 'Student One',
-      },
-    ];
+  // Faqat admin foydalanuvchini yaratish
+  async createAdminUser() {
+    const adminUser = {
+      username: 'admin',
+      password: 'SeonAkademiya2024!',
+      role: 'admin',
+      fullName: 'SEON AKADEMIYA Admin',
+    };
 
-    for (const userData of users) {
-      const existingUser = await this.userRepository.findOne({
-        where: { username: userData.username },
-      });
-      if (!existingUser) {
-        await this.userRepository.save(userData);
-      }
+    const existingAdmin = await this.userRepository.findOne({
+      where: { username: adminUser.username },
+    });
+    
+    if (!existingAdmin) {
+      await this.userRepository.save(adminUser);
+      console.log('✅ Admin foydalanuvchi yaratildi:', adminUser);
     }
   }
 }

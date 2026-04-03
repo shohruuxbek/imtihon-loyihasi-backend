@@ -14,14 +14,14 @@ export class Student {
   @Column({ unique: true })
   phone: string;
 
-  @Column({ unique: true })
-  email: string;
-
   @Column()
   groupId: number;
 
   @Column()
   courseName: string;
+
+  @Column({ nullable: true })
+  courseId: number;
 
   @Column({ default: 'active' })
   status: string;

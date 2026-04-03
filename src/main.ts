@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module.js';
+import { AuthService } from './auth/auth.service.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,10 +18,15 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted: true,
+      forbidNonWhitelisted: false, // Production'da true qiling
       transform: true,
     }),
   );
+
+  // Admin foydalanuvchini avtomatik yaratish
+  const authService = app.get(AuthService);
+  await authService.createAdminUser();
+  console.log('✅ Admin foydalanuvchi avtomatik yaratildi');
 
   const port = process.env.PORT || 3000;
   await app.listen(port);

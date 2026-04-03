@@ -35,9 +35,5 @@ export class AuthController {
     return this.authService.findAllUsers();
   }
 
-  @Post('init-demo')
-  async initDemoUsers() {
-    await this.authService.createDemoUsers();
-    return { message: 'Demo foydalanuvchilar yaratildi' };
-  }
+  // Bu endpoint o'chirilgan - demo foydalanuvchilar yo'q
 }
