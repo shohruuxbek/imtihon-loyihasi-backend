@@ -9,9 +9,9 @@ import { PaymentsModule } from './payments/payments.module.js';
 import { AttendanceModule } from './attendance/attendance.module.js';
 import { AuthModule } from './auth/auth.module.js';
 
-const mongoUri = process.env.MONGO_URI;
+const mongoUri = process.env.DATABASE_URI;
 if (!mongoUri) {
-  throw new Error('MONGO_URI is not set');
+  throw new Error('DATABASE_URI is not set');
 }
 
 @Module({
