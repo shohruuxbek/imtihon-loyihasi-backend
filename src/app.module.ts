@@ -9,12 +9,14 @@ import { PaymentsModule } from './payments/payments.module.js';
 import { AttendanceModule } from './attendance/attendance.module.js';
 import { AuthModule } from './auth/auth.module.js';
 
+const mongoUri = process.env.MONGO_URI;
+if (!mongoUri) {
+  throw new Error('MONGO_URI is not set');
+}
+
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }),
+    MongooseModule.forRoot(mongoUri),
     StudentsModule,
     TeachersModule,
     CoursesModule,
