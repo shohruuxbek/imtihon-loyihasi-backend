@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: oquv_markazi_db
+    environment:
+      POSTGRES_DB: oquv_markazi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  backend:
+    build: .
+    container_name: oquv_markazi_backend
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/oquv_markazi
+      NODE_ENV: development
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - app_network
+    command: npm run start:dev
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
