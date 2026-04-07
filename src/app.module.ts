@@ -15,14 +15,20 @@ import { Payment } from './payments/payment.entity.js';
 import { Attendance } from './attendance/attendance.entity.js';
 import { User } from './auth/user.entity.js';
 
+const databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+  throw new Error('DATABASE_URL environment variable is not set');
+}
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: process.env.DATABASE_URL,
+      url: databaseUrl,
       entities: [Student, Teacher, Course, Payment, Attendance, User],
       synchronize: true,
-      logging: true,
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
     StudentsModule,
     TeachersModule,
