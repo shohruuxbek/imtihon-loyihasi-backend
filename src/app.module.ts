@@ -22,10 +22,7 @@ import { User } from './auth/user.entity.js';
       url: process.env.DATABASE_URL,
       entities: [Student, Teacher, Course, Payment, Attendance, User],
       synchronize: true,
-      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-      extra: {
-        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-      },
+      logging: true,
     }),
     StudentsModule,
     TeachersModule,
